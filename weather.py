@@ -55,3 +55,8 @@ def run_weather_api():
 
     print(f"CSV file '{csv_file}' created successfully.")
 
+'''if __name__ == "__main__":
+    file = './weather_forecast.csv'
+    run_weather_api()
+'''
+run_weather_api()

@@ -1,42 +1,47 @@
 import mysql.connector
 import pandas as pd
+import time
 
 host = 'localhost'
 user = 'root'
 password = 'root'
 database = 'weather_api'
 
-file = 'weather_forecast.csv'
 
-try:
-    connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
-    if connection.is_connected():
-        print("Connected to the MySQL server.")
+def load_to_db(file):
 
-        cursor = connection.cursor()
+    try:
+        connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
 
-        df = pd.read_csv(file)
+        if connection.is_connected():
+            print("Connected to the MySQL server.")
+            cursor = connection.cursor()
 
-        for index, row in df.iterrows():
-            date_time = row['Date and Time']
-            temperature = row['Temperature (°C)']
-            humidity = row['Humidity (%)']
-            weather_description = row['Weather Description']
-            wind_speed = row['Wind Speed (m/s)']
-            wind_direction = row['Wind Direction (°)']
-            clouds = row['Clouds (%)']
+            df = pd.read_csv(file, encoding='latin-1')
 
-            query = "INSERT INTO weather_forecast (dt, temperature, humidity, weather_description, wind_speed, wind_direction, clouds) " \
-                    "VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            for index, row in df.iterrows():
+                date_time = row['Date and Time']
+                temperature = row['Temperature (°C)']
+                humidity = row['Humidity (%)']
+                weather_description = row['Weather Description']
+                wind_speed = row['Wind Speed (m/s)']
+                wind_direction = row['Wind Direction (°)']
+                clouds = row['Clouds (%)']
 
-            cursor.execute(query, (date_time, temperature, humidity, weather_description, wind_speed, wind_direction, clouds))
+                query = "INSERT INTO weather_forecast (dt, temperature, humidity, weather_description, wind_speed, wind_direction, clouds) " \
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s)"
 
-        connection.commit()
-        print("Data inserted successfully.")
+                cursor.execute(query, (date_time, temperature, humidity, weather_description, wind_speed, wind_direction, clouds))
 
-        cursor.close()
-        connection.close()
-        print("Connection to the MySQL server is closed.")
+            connection.commit()
+            print("Data inserted successfully.")
+            
+            cursor.close()
+            connection.close()
+            print("Connection to the MySQL server is closed.")
         
-except mysql.connector.Error as e:
-    print("Error connecting to MySQL server:", e)
+    except mysql.connector.Error as e:
+        print("Error connecting to MySQL server:", e)
+
+
+
