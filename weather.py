@@ -14,7 +14,7 @@ def run_weather_api():
 
         try:
             response = requests.get(base_url, params=params)
-            response.raise_for_status()  # Check for any errors in the response
+            response.raise_for_status() 
 
             data = response.json()
             return data
@@ -23,7 +23,6 @@ def run_weather_api():
             print("Error making the API request:", e)
             return None
 
-    # Replace these with your latitude, longitude, and API key
     latitude = 40.7128
     longitude = -74.0060
     your_api_key = "d3489a36e94c0c6e8ca88b42b9f3b55f"
@@ -45,16 +44,13 @@ def run_weather_api():
 
         row = [dt_txt, temp_celsius, humidity, weather_description, wind_speed, wind_direction, clouds_percent]
         rows.append(row)
-
-    #print(rows)       
+   
 
     csv_file = "weather_forecast.csv"
 
     with open(csv_file, "w", newline="") as f:
         csv_writer = csv.writer(f)
-        # Write header
         csv_writer.writerow(["Date and Time", "Temperature (°C)", "Humidity (%)", "Weather Description", "Wind Speed (m/s)", "Wind Direction (°)", "Clouds (%)"])
-        # Write data rows
         csv_writer.writerows(rows)
 
     print(f"CSV file '{csv_file}' created successfully.")
