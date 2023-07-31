@@ -8,7 +8,7 @@ password = 'root'
 database = 'weather_api'
 
 
-def load_to_db(file):
+def load_to_db():
 
     try:
         connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
@@ -17,7 +17,7 @@ def load_to_db(file):
             print("Connected to the MySQL server.")
             cursor = connection.cursor()
 
-            df = pd.read_csv(file, encoding='latin-1')
+            df = pd.read_csv('weather_forecast.csv', encoding='latin-1')
 
             for index, row in df.iterrows():
                 date_time = row['Date and Time']
