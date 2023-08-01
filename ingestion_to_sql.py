@@ -17,7 +17,7 @@ def load_to_db():
             print("Connected to the MySQL server.")
             cursor = connection.cursor()
 
-            df = pd.read_csv('weather_forecast.csv', encoding='latin-1')
+            df = pd.read_csv("weather_forecast.csv", encoding='latin-1')
 
             for index, row in df.iterrows():
                 date_time = row['Date and Time']
@@ -44,4 +44,5 @@ def load_to_db():
         print("Error connecting to MySQL server:", e)
 
 
+load_to_db()
 

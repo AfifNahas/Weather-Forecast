@@ -1,6 +1,9 @@
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
+# pipeline.py
+#from airflow.operators.empty_operator import EmptyOperator
+
 from datetime import datetime, timedelta
 
 from weather import run_weather_api
@@ -19,7 +22,7 @@ default_args = {
 dag = DAG(
     'weather_etl_project',
     default_args=default_args,
-    schedule_interval=timedelta(days=1),  
+    schedule=timedelta(days=1),  
 )
 
 # Extract from database
@@ -39,3 +42,4 @@ load_db = PythonOperator(
 )
 
 run_etl >> load_db 
+
